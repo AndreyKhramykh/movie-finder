@@ -20,13 +20,14 @@
       class="swiper"
     >
       <swiper-slide v-for="elem in currentArray" :key="elem.id">
-        <MovieCardMin
-          :title="elem.title"
-          :vote-average="elem.vote_average.toFixed(1)"
-          :poster-url="elem.poster_path"
-          :genres="transformGenreIdToName(elem.genre_ids)"
-          :date-release="transformDate(elem.release_date)"
-        />
+          <MovieCardMin
+            @click="goToMovieCard(elem.id)"
+            :title="elem.title"
+            :vote-average="elem.vote_average.toFixed(1)"
+            :poster-url="elem.poster_path"
+            :genres="transformGenreIdToName(elem.genre_ids)"
+            :date-release="transformDate(elem.release_date)"
+          />
       </swiper-slide>
     </swiper>
   </div>
@@ -57,11 +58,17 @@ const pageTitle = ref();
 const currentGenreName = ref();
 const isNotFound = ref(false);
 const isLoading = ref(true);
+// const movieData = ref()
 const genresArray = moviesStore.genresArray;
 
 pageTitle.value = "Most popular movies now!";
 
 currentArray.value = moviesStore.popularMoviesArray;
+
+async function goToMovieCard(id) {
+  await moviesStore.getMovieData(id);
+  router.push(`/moviecard/${id}`)
+}
 
 function transformGenreIdToName(arrayOfId) {
   const resultArray = [];
@@ -117,8 +124,8 @@ onMounted(() => {
   disableLoader();
 });
 
-console.log(`output->moviesStore.sea`, moviesStore.searchQueryMovies);
-console.log(`output->`, router.currentRoute.value.params.id);
+// console.log(`output->moviesStore.sea`, moviesStore.searchQueryMovies);
+// console.log(`output->`, router.currentRoute.value.params.id);
 </script>
 
 <style scoped>

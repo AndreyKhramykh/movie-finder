@@ -1,5 +1,5 @@
 <template>
-  <div  class="bg-cyan-200 max-h-full min-h-screen">
+  <div  class="bg-cyan-200 max-h-full min-h-screen flex flex-col justify-between">
     <Loader v-if="isLoading"/>
     <router-view v-if="isDataReady"/>
   </div>
@@ -19,7 +19,7 @@ function disableLoader() {
 }
 
 onBeforeMount(async () => {
-  await moviesStore.getMovieData();
+  // await moviesStore.getMovieData();
   await moviesStore.getGenresData();
   await moviesStore.getPopularMoviesList();
   isDataReady.value = true;

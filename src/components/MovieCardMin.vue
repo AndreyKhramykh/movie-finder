@@ -13,6 +13,7 @@
 // import axios from "axios";
 import { defineProps } from "vue";
 
+
 function getFullPosterUrl(posterPath) {
   return `https://image.tmdb.org/t/p/w500${posterPath}`;
 }

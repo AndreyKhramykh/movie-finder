@@ -1,6 +1,6 @@
 import axios from "axios";
 import { defineStore } from "pinia";
-import { API_KEY, BASE_URL } from "@/constants";
+import { API_KEY } from "@/constants";
 
 export const useMoviesStore = defineStore("moviesStore", {
   state: () => {
@@ -16,12 +16,12 @@ export const useMoviesStore = defineStore("moviesStore", {
     };
   },
   actions: {
-    async getMovieData() {
+    async getMovieData(id) {
       await axios
-        .get(BASE_URL + this.MOVIE_SECTION + this.DEFAULT_MOVIE_ID + API_KEY)
+        .get(`https://api.themoviedb.org/3/movie/${id}${API_KEY}`)
         .then((response) => {
           this.movieInfo = response.data;
-        });
+        }).catch(err => err == 'new err');
     },
     async getGenresData() {
       await axios

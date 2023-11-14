@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import MainPage from '../views/MainPage.vue'
 import GenrePage from '../views/GenrePage.vue'
 import SearchResultPage from '../views/SearchResultPage.vue'
+import MovieCardPage from '../views/MovieCardPage.vue'
 
 const routes = [
   {
@@ -18,6 +19,11 @@ const routes = [
     path: '/search-result',
     name: 'search-result',
     component: SearchResultPage
+  },
+  {
+    path: '/moviecard/:id',
+    name: 'moviecard',
+    component: MovieCardPage
   },
   // {
   //   path: '/about',

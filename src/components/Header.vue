@@ -3,13 +3,13 @@
             <Logo/>
             <SearchInput/>
         </div>
-        <GenresBlock/>
+        <!-- <GenresBlock/> -->
 </template>
     
 <script setup>
     import Logo from '@/components/Logo.vue'
     import SearchInput from '@/components/SearchInput.vue'
-    import GenresBlock from '@/components/GenresBlock.vue'
+    // import GenresBlock from '@/components/GenresBlock.vue'
 </script>
     
 <style>
