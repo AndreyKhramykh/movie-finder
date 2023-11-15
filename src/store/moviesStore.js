@@ -23,7 +23,6 @@ export const useMoviesStore = defineStore("moviesStore", {
         .then((response) => {
           this.movieInfo = response.data;
         })
-        .catch((err) => err == "new err");
     },
     async getGenresData() {
       await axios
