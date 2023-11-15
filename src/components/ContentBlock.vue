@@ -1,6 +1,6 @@
 <template>
-  <Loader v-if="isLoading"/>
-  <div>
+  <LoaderLocal v-if="isLoading" />
+  <div v-else>
     <h1 class="text-center mt-8 text-2xl">{{ pageTitle }}</h1>
     <div v-if="isNotFound">
       <img class="w-1/6" src="@/assets/lupa.png" alt="" />
@@ -20,14 +20,14 @@
       class="swiper"
     >
       <swiper-slide v-for="elem in currentArray" :key="elem.id">
-          <MovieCardMin
-            @click="goToMovieCard(elem.id)"
-            :title="elem.title"
-            :vote-average="elem.vote_average.toFixed(1)"
-            :poster-url="elem.poster_path"
-            :genres="transformGenreIdToName(elem.genre_ids)"
-            :date-release="transformDate(elem.release_date)"
-          />
+        <MovieCardMin
+          @click="goToMovieCard(elem.id)"
+          :title="elem.title"
+          :vote-average="elem.vote_average.toFixed(1)"
+          :poster-url="elem.poster_path"
+          :genres="transformGenreIdToName(elem.genre_ids)"
+          :date-release="transformDate(elem.release_date)"
+        />
       </swiper-slide>
     </swiper>
   </div>
@@ -36,7 +36,8 @@
 <script setup>
 // General options
 import MovieCardMin from "./MovieCardMin.vue";
-import Loader from '@/components/Loader.vue'
+import LoaderLocal from "./LoaderLocal.vue";
+// import Loader from '@/components/Loader.vue'
 import { useMoviesStore } from "@/store/moviesStore.js";
 import { ref, onMounted, watch } from "vue";
 
@@ -57,17 +58,18 @@ const currentArray = ref();
 const pageTitle = ref();
 const currentGenreName = ref();
 const isNotFound = ref(false);
-const isLoading = ref(true);
-// const movieData = ref()
+const isLoading = ref(false);
 const genresArray = moviesStore.genresArray;
 
 pageTitle.value = "Most popular movies now!";
 
 currentArray.value = moviesStore.popularMoviesArray;
+console.log(`output->moviesStore.isLoading`, moviesStore.isLoading);
 
 async function goToMovieCard(id) {
+  moviesStore.isGlobalLoading = true;
   await moviesStore.getMovieData(id);
-  router.push(`/moviecard/${id}`)
+  router.push(`/moviecard/${id}`);
 }
 
 function transformGenreIdToName(arrayOfId) {
@@ -87,7 +89,7 @@ function transformDate(date) {
 function disableLoader() {
   setTimeout(() => {
     isLoading.value = false;
-  }, 1000)
+  }, 1000);
 }
 
 async function rerender(id) {
@@ -101,6 +103,7 @@ async function rerender(id) {
 watch(
   () => router.currentRoute.value.params.id,
   () => {
+    isLoading.value = true;
     rerender(router.currentRoute.value.params.id);
     disableLoader();
   }
@@ -108,6 +111,7 @@ watch(
 watch(
   () => moviesStore.searchQueryMovies,
   () => {
+    isLoading.value = true;
     if (moviesStore.searchQueryMovies.length > 0) {
       isNotFound.value = false;
       currentArray.value = moviesStore.searchQueryMovies;
@@ -115,17 +119,15 @@ watch(
     } else {
       pageTitle.value = `Search results:`;
       isNotFound.value = true;
-      // currentArray.value = `Sorry, we did not find anything for your request`
     }
+    disableLoader();
   }
 );
 onMounted(() => {
+  isLoading.value = true;
   rerender(router.currentRoute.value.params.id);
   disableLoader();
 });
-
-// console.log(`output->moviesStore.sea`, moviesStore.searchQueryMovies);
-// console.log(`output->`, router.currentRoute.value.params.id);
 </script>
 
 <style scoped>

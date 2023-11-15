@@ -13,6 +13,7 @@ export const useMoviesStore = defineStore("moviesStore", {
       moviesInGenreArray: [],
       searchQueryMovies: [],
       currentPageAPI: 1,
+      isGlobalLoading: true,
     };
   },
   actions: {
@@ -21,7 +22,8 @@ export const useMoviesStore = defineStore("moviesStore", {
         .get(`https://api.themoviedb.org/3/movie/${id}${API_KEY}`)
         .then((response) => {
           this.movieInfo = response.data;
-        }).catch(err => err == 'new err');
+        })
+        .catch((err) => err == "new err");
     },
     async getGenresData() {
       await axios
@@ -39,8 +41,6 @@ export const useMoviesStore = defineStore("moviesStore", {
         })
         .then((response) => {
           this.popularMoviesArray = response.data.results;
-          // return this.popularMoviesArray;
-          // response.data.page = pageNumber;
         });
     },
     async getMoviesInGenreList(genreID) {
@@ -55,25 +55,21 @@ export const useMoviesStore = defineStore("moviesStore", {
         )
         .then((response) => {
           this.moviesInGenreArray = response.data.results;
-          // return this.popularMoviesArray;
-          // response.data.page = pageNumber;
         });
     },
     async searchMovies(searchQuery) {
       await axios
         .get(
-          `https://api.themoviedb.org/3/search/movie${API_KEY}&query=${searchQuery}`,
-          
+          `https://api.themoviedb.org/3/search/movie${API_KEY}&query=${searchQuery}`
         )
         .then((response) => {
           this.searchQueryMovies = response.data.results;
-          // return this.popularMoviesArray;
-          // response.data.page = pageNumber;
         });
-    }
-    // async loadNextPopularMoviesPage() {
-    //   this.currentPage++;
-    //   await this.getPopularMoviesList();
-    // },
+    },
+    setGlobalLoading(boolean, duration) {
+      setTimeout(() => {
+        this.isGlobalLoading = boolean;
+      }, duration);
+    },
   },
 });
