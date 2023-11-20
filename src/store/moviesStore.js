@@ -1,19 +1,16 @@
+import { API_KEY } from "@/constants";
 import axios from "axios";
 import { defineStore } from "pinia";
-import { API_KEY } from "@/constants";
 
 export const useMoviesStore = defineStore("moviesStore", {
   state: () => {
     return {
-      MOVIE_SECTION: "/movie/",
-      DEFAULT_MOVIE_ID: "157336",
       movieInfo: {},
       genresArray: [],
-      popularMoviesArray: [],
-      moviesInGenreArray: [],
-      searchQueryMovies: [],
+      moviesListArray: [],
       currentPageAPI: 1,
       isGlobalLoading: true,
+			isSearching: false,
     };
   },
   actions: {
@@ -39,7 +36,7 @@ export const useMoviesStore = defineStore("moviesStore", {
           },
         })
         .then((response) => {
-          this.popularMoviesArray = response.data.results;
+          this.moviesListArray = response.data.results;
         });
     },
     async getMoviesInGenreList(genreID) {
@@ -53,7 +50,7 @@ export const useMoviesStore = defineStore("moviesStore", {
           }
         )
         .then((response) => {
-          this.moviesInGenreArray = response.data.results;
+          this.moviesListArray = response.data.results;
         });
     },
     async searchMovies(searchQuery) {
@@ -62,7 +59,7 @@ export const useMoviesStore = defineStore("moviesStore", {
           `https://api.themoviedb.org/3/search/movie${API_KEY}&query=${searchQuery}`
         )
         .then((response) => {
-          this.searchQueryMovies = response.data.results;
+          this.moviesListArray = response.data.results;
         });
     },
     setGlobalLoading(boolean, duration) {
@@ -71,4 +68,9 @@ export const useMoviesStore = defineStore("moviesStore", {
       }, duration);
     },
   },
+  getters: {
+    isMoviesListEmpty: (state) => {
+      return Boolean(!state.moviesListArray.length)
+    }
+  }
 });
