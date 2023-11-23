@@ -4,7 +4,7 @@
 		<h1 class="text-center mt-8 p-4 font-bold text-3xl">{{ pageTitle }}</h1>
 		<div
 			class="flex flex-col p-10 items-center gap-10"
-			v-if="moviesStore.isMoviesListEmpty"
+			v-if="!moviesStore.isMoviesListEmpty"
 		>
 			<img class="w-1/6" src="@/assets/lupa_white.png" alt="" />
 			<p class="text-center">
@@ -39,7 +39,6 @@
 </template>
 
 <script setup>
-	console.log(`output->windowInnerWidth`, window.innerWidth)
 	// DOM elements
 	import MovieCardMin from './MovieCardMin.vue'
 	import LoaderLocal from './LoaderLocal.vue'
@@ -71,7 +70,6 @@
 
 	// Component default options
 	pageTitle.value = 'Most popular movies now!'
-	moviesStore.isSearching = false
 
 	// Functions
 	async function goToMovieCard(id) {
@@ -101,17 +99,18 @@
 	}
 
 	async function rerender(id) {
-		moviesStore.isSearching = false
 		if (id != undefined) {
 			await moviesStore.getMoviesInGenreList(id)
 			currentGenreName.value = genresArray.value.find((item) => item.id == id)
 			pageTitle.value = `Best films in "${currentGenreName.value.name}" category`
+		} else if (moviesStore.isSearchActive) {
+			// some problem here ?
+			pageTitle.value = 'Search results:'
+			return
 		} else {
-			await moviesStore.getPopularMoviesList()
+			await moviesStore.getPopularMoviesList() // some problem here ?
 		}
 	}
-	moviesStore.checkDeviceWidth()
-
 	// Watching render changes
 	watch(
 		() => router.currentRoute.value.params.id,
@@ -131,12 +130,7 @@
 			disableLoader()
 		}
 	)
-	watch(
-		() => moviesStore.isSearching,
-		() => {
-			pageTitle.value = `Search results:`
-		}
-	)
+
 	onMounted(() => {
 		isLoading.value = true
 		rerender(router.currentRoute.value.params.id)

@@ -14,14 +14,9 @@
 		/>
 	</div>
 
-	<router-link to="/search-result"
-		><button
-			class="bg-blue rounded px-4 py-1"
-			@click="searchMovies(searchQuery)"
-		>
-			Search
-		</button></router-link
-	>
+	<button class="bg-blue rounded px-4 py-1" @click="searchMovies(searchQuery)">
+		Search
+	</button>
 </template>
 
 <script setup>
@@ -30,15 +25,18 @@
 	const moviesStore = useMoviesStore()
 	import { storeToRefs } from 'pinia'
 	const { searchMobileMenu, bluredBackground } = storeToRefs(moviesStore)
+	import { useRouter } from 'vue-router'
+	const router = useRouter()
 
 	const searchQuery = ref('')
 
 	async function searchMovies(queryParams) {
 		await moviesStore.searchMovies(queryParams)
-		moviesStore.isSearching = true
+		moviesStore.isSearchActive = true
 		searchQuery.value = ''
 		searchMobileMenu.value = false
 		bluredBackground.value = false
+		router.push('/search-result')
 	}
 </script>
 

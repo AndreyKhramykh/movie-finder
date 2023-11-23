@@ -10,12 +10,12 @@ export const useMoviesStore = defineStore("moviesStore", {
       moviesListArray: [],
       currentPageAPI: 1,
       isGlobalLoading: true,
-			isSearching: false,
 			slidesQuantity: 3,
 			isMobileDevice: false,
 			genresMobileMenu: false,
 			searchMobileMenu: false,
 			bluredBackground: false,
+			isSearchActive: false
     };
   },
   actions: {
@@ -76,13 +76,12 @@ export const useMoviesStore = defineStore("moviesStore", {
 			if (window.innerWidth < 768) {
 				this.slidesQuantity = 1;
 				this.isMobileDevice = true;
-				console.log(`output->`,'success')
 			}
 		}
   },
   getters: {
     isMoviesListEmpty: (state) => {
-      return Boolean(!state.moviesListArray.length)
+      return Boolean(state.moviesListArray.length)
     }
   }
 });

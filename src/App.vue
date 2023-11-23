@@ -14,6 +14,7 @@
 	const isDataReady = ref(false)
 
 	onBeforeMount(async () => {
+		moviesStore.checkDeviceWidth()
 		await moviesStore.getGenresData()
 		await moviesStore.getPopularMoviesList()
 		isDataReady.value = true
