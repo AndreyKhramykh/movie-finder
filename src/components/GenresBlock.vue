@@ -1,25 +1,15 @@
 <template>
-	<div>
-		<div class="grid grid-cols-5 justify-items-center">
-			<div
-				class="transition-all text-xl hover:cursor-pointer hover:text-green"
-				v-for="elem in genresArray"
-				:key="elem.id"
-			>
-				<router-link :to="`/genre/` + elem.id">{{ elem.name }}</router-link>
-			</div>
-		</div>
+	<div class="grid grid-cols-5 justify-items-center" v-if="!isMobileDevice">
+		<GenresList />
 	</div>
 </template>
 
 <script setup>
+	import GenresList from './GenresList.vue'
 	import { useMoviesStore } from '@/store/moviesStore.js'
+	import { storeToRefs } from 'pinia'
 	const moviesStore = useMoviesStore()
-	const genresArray = moviesStore.genresArray
+	const { isMobileDevice } = storeToRefs(moviesStore)
 </script>
 
-<style scoped>
-	.router-link-active {
-		color: #01d277;
-	}
-</style>
+<style scoped></style>

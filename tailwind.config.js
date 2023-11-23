@@ -7,7 +7,10 @@ module.exports = {
 				blue: '#007AFF',
 				green: '#01D277',
 				black: '#0C0A09'
-			}
+			},
+			screens: {
+        'mobile': '768px',
+      },
 		},
   },
   plugins: [],

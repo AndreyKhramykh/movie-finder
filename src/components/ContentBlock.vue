@@ -1,19 +1,21 @@
 <template>
 	<LoaderLocal v-if="isLoading" />
 	<div v-else>
-		<h1 class="text-center mt-8 font-bold text-3xl">{{ pageTitle }}</h1>
+		<h1 class="text-center mt-8 p-4 font-bold text-3xl">{{ pageTitle }}</h1>
 		<div
 			class="flex flex-col p-10 items-center gap-10"
 			v-if="moviesStore.isMoviesListEmpty"
 		>
 			<img class="w-1/6" src="@/assets/lupa_white.png" alt="" />
-			<p>Sorry, we did not find anything for your request</p>
+			<p class="text-center">
+				Sorry, we did not find anything for your request
+			</p>
 		</div>
 		<swiper
 			v-else
 			:modules="modules"
-			:slides-per-view="3"
-			:slides-per-group="3"
+			:slides-per-view="slidesQuantity"
+			:slides-per-group="slidesQuantity"
 			:space-between="1"
 			navigation
 			class="swiper"
@@ -37,6 +39,7 @@
 </template>
 
 <script setup>
+	console.log(`output->windowInnerWidth`, window.innerWidth)
 	// DOM elements
 	import MovieCardMin from './MovieCardMin.vue'
 	import LoaderLocal from './LoaderLocal.vue'
@@ -63,7 +66,8 @@
 	const pageTitle = ref()
 	const currentGenreName = ref()
 	const isLoading = ref(false)
-	const { moviesListArray, genresArray } = storeToRefs(moviesStore)
+	const { moviesListArray, genresArray, slidesQuantity } =
+		storeToRefs(moviesStore)
 
 	// Component default options
 	pageTitle.value = 'Most popular movies now!'
@@ -101,11 +105,12 @@
 		if (id != undefined) {
 			await moviesStore.getMoviesInGenreList(id)
 			currentGenreName.value = genresArray.value.find((item) => item.id == id)
-			pageTitle.value = `Best film in "${currentGenreName.value.name}" category`
+			pageTitle.value = `Best films in "${currentGenreName.value.name}" category`
 		} else {
 			await moviesStore.getPopularMoviesList()
 		}
 	}
+	moviesStore.checkDeviceWidth()
 
 	// Watching render changes
 	watch(

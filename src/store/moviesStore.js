@@ -11,6 +11,11 @@ export const useMoviesStore = defineStore("moviesStore", {
       currentPageAPI: 1,
       isGlobalLoading: true,
 			isSearching: false,
+			slidesQuantity: 3,
+			isMobileDevice: false,
+			genresMobileMenu: false,
+			searchMobileMenu: false,
+			bluredBackground: false,
     };
   },
   actions: {
@@ -67,6 +72,13 @@ export const useMoviesStore = defineStore("moviesStore", {
         this.isGlobalLoading = boolean;
       }, duration);
     },
+		checkDeviceWidth() {
+			if (window.innerWidth < 768) {
+				this.slidesQuantity = 1;
+				this.isMobileDevice = true;
+				console.log(`output->`,'success')
+			}
+		}
   },
   getters: {
     isMoviesListEmpty: (state) => {
