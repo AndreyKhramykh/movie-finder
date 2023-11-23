@@ -1,8 +1,9 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import MainPage from '../views/MainPage.vue'
+
 import GenrePage from '../views/GenrePage.vue'
-import SearchResultPage from '../views/SearchResultPage.vue'
+import MainPage from '../views/MainPage.vue'
 import MovieCardPage from '../views/MovieCardPage.vue'
+import SearchResultPage from '../views/SearchResultPage.vue'
 
 const routes = [
   {

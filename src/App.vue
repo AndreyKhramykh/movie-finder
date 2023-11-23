@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="bg-cyan-200 max-h-full min-h-screen flex flex-col justify-between"
+		class="bg-black text-white max-h-full min-h-screen flex flex-col justify-between font-display"
 	>
 		<LoaderGlobal v-if="moviesStore.isGlobalLoading" />
 		<router-view v-if="isDataReady" />

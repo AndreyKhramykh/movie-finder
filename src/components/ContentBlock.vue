@@ -1,9 +1,12 @@
 <template>
 	<LoaderLocal v-if="isLoading" />
 	<div v-else>
-		<h1 class="text-center mt-8 text-2xl">{{ pageTitle }}</h1>
-		<div v-if="moviesStore.isMoviesListEmpty">
-			<img class="w-1/6" src="@/assets/lupa.png" alt="" />
+		<h1 class="text-center mt-8 font-bold text-3xl">{{ pageTitle }}</h1>
+		<div
+			class="flex flex-col p-10 items-center gap-10"
+			v-if="moviesStore.isMoviesListEmpty"
+		>
+			<img class="w-1/6" src="@/assets/lupa_white.png" alt="" />
 			<p>Sorry, we did not find anything for your request</p>
 		</div>
 		<swiper
@@ -13,13 +16,13 @@
 			:slides-per-group="3"
 			:space-between="1"
 			navigation
-			:pagination="{
-				clickable: true,
-				dynamicBullets: true,
-			}"
 			class="swiper"
 		>
-			<swiper-slide v-for="elem in moviesListArray" :key="elem.id">
+			<swiper-slide
+				class="h-full"
+				v-for="elem in moviesListArray"
+				:key="elem.id"
+			>
 				<MovieCardMin
 					@click="goToMovieCard(elem.id)"
 					:title="elem.title"
@@ -45,11 +48,11 @@
 
 	// Swiper options
 	import { Swiper, SwiperSlide } from 'swiper/vue'
-	import { Navigation, Pagination } from 'swiper/modules'
+	import { Navigation } from 'swiper/modules'
 	import 'swiper/css'
 	import 'swiper/css/navigation'
 	import 'swiper/css/pagination'
-	const modules = [Navigation, Pagination]
+	const modules = [Navigation]
 
 	// Router options
 	import { useRouter } from 'vue-router'

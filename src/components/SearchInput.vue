@@ -1,14 +1,29 @@
 <template>
-	<input
-		v-model="searchQuery"
-		@keyup.enter="searchMovies(searchQuery)"
-		@input="handleInput"
-		class="h-1/3 w-1/4 p-2"
-		placeholder="Search movie"
-	/>
-	<router-link to="/search-result"
-		><button @click="searchMovies(searchQuery)">Search</button></router-link
-	>
+	<div class="w-1/3 flex gap-5 items-center">
+		<div class="relative border-b-[1px] border-white w-3/4 p-2">
+			<input
+				v-model="searchQuery"
+				@keyup.enter="searchMovies(searchQuery)"
+				@input="handleInput"
+				class="w-3/4 font-semibold bg-stone-950 outline-none"
+				placeholder="Search movie"
+			/>
+			<img
+				class="absolute top-1/2 -translate-y-2/4 right-2 w-[20px]"
+				src="../assets//lupa_white.png"
+				alt=""
+			/>
+		</div>
+
+		<router-link to="/search-result"
+			><button
+				class="bg-blue rounded px-4 py-1"
+				@click="searchMovies(searchQuery)"
+			>
+				Search
+			</button></router-link
+		>
+	</div>
 </template>
 
 <script setup>
