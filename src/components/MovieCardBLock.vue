@@ -15,7 +15,7 @@
 					:src="getFullPosterUrl(moviesStore.movieInfo.poster_path)"
 					alt=""
 				/>
-				<div class="p-2 mobile:p-10">
+				<div class="p-6 mobile:p-10">
 					<h1 class="text-3xl">{{ moviesStore.movieInfo.title }}</h1>
 					<h2 class="text-xl pt-2 text-emerald-500">
 						{{ moviesStore.movieInfo.tagline }}
